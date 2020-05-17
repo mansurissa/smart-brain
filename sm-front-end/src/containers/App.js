@@ -54,14 +54,14 @@ class App extends Component {
 
         }
     }
-    loadUser = () => {
+    loadUser = (inputUser) => {
         this.setState({
             user: {
-                id: this.state.id,
-                email: this.state.email,
+                id: inputUser.id,
+                email: inputUser.email,
                 // password: "1234",
-                entries: this.state.entries,
-                joined: this.state.joined
+                entries: inputUser.entries,
+                joined: inputUser.joined
             }
         })
     }
@@ -93,7 +93,7 @@ class App extends Component {
         if (route === 'signout') {
             this.setState({ isSignedIn: false })
         } else if (route === 'home') {
-            this.setState({ isSignedIn: true })
+            this.setState({ isSignedIn: true, route })
         } else {
             this.setState({ route: route })
         }
