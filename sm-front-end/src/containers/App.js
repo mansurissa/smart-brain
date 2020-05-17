@@ -46,10 +46,9 @@ class App extends Component {
             user: {
                 id: '',
                 email: "",
-                // password: "1234",
+                name: "",
                 entries: 0,
-                joined: new Date(),
-                name: ""
+                joined: new Date()
             }
 
         }
@@ -59,7 +58,7 @@ class App extends Component {
             user: {
                 id: inputUser.id,
                 email: inputUser.email,
-                // password: "1234",
+                name: inputUser.name,
                 entries: inputUser.entries,
                 joined: inputUser.joined
             }
@@ -145,7 +144,7 @@ class App extends Component {
                 {this.state.route === 'home' ?
                     <div>
                         <Logo />
-                        <Rank username={this.state.name} entries={this.state.entries} />
+                        <Rank username={this.state.user.name} entries={this.state.user.entries} />
                         <ImageLinkForm
                             inputChange={this.onInputChange}
                             onSubmit={this.onButtonSubmit}
