@@ -57,7 +57,7 @@ class rejester extends React.Component {
                                     <input
                                         onChange={this.onNameChange}
                                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                                        type="email"
+                                        type="text"
                                         name="email-address"
                                         id="email-address"
                                     />
