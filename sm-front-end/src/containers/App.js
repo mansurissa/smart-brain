@@ -46,22 +46,21 @@ class App extends Component {
             user: {
                 id: '',
                 email: "",
-                // password: "1234",
+                name: "",
                 entries: 0,
-                joined: new Date(),
-                name: ""
+                joined: new Date()
             }
 
         }
     }
-    loadUser = () => {
+    loadUser = (inputUser) => {
         this.setState({
             user: {
-                id: this.state.id,
-                email: this.state.email,
-                // password: "1234",
-                entries: this.state.entries,
-                joined: this.state.joined
+                id: inputUser.id,
+                email: inputUser.email,
+                name: inputUser.name,
+                entries: inputUser.entries,
+                joined: inputUser.joined
             }
         })
     }
@@ -91,9 +90,9 @@ class App extends Component {
     }
     onRouteChange = (route) => {
         if (route === 'signout') {
-            this.setState({ isSignedIn: false })
+            this.setState({ isSignedIn: false, route: 'signin' })
         } else if (route === 'home') {
-            this.setState({ isSignedIn: true })
+            this.setState({ isSignedIn: true, route })
         } else {
             this.setState({ route: route })
         }
@@ -145,7 +144,7 @@ class App extends Component {
                 {this.state.route === 'home' ?
                     <div>
                         <Logo />
-                        <Rank username={this.state.name} entries={this.state.entries} />
+                        <Rank username={this.state.user.name} entries={this.state.user.entries} />
                         <ImageLinkForm
                             inputChange={this.onInputChange}
                             onSubmit={this.onButtonSubmit}
@@ -157,7 +156,7 @@ class App extends Component {
                     </div>
                     : (
                         this.state.route === 'signin' ?
-                            <Signin onRouteChange={this.onRouteChange} />
+                            <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
                             :
                             <Rejester loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
 
