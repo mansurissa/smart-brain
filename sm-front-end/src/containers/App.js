@@ -14,10 +14,10 @@ import Rank from '../components/rank/rank'
 const particlesOption = {
     "particles": {
         "number": {
-            "value": 60
+            "value": 40
         },
         "size": {
-            "value": 1
+            "value": 5
         }
     },
     "interactivity": {
@@ -139,12 +139,16 @@ class App extends Component {
                     params={particlesOption}
                     className='particles'
                 />
-                <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange} />
+                <Navigation
+                    isSignedIn={this.state.isSignedIn}
+                    onRouteChange={this.onRouteChange} />
 
                 {this.state.route === 'home' ?
                     <div>
                         <Logo />
-                        <Rank username={this.state.user.name} entries={this.state.user.entries} />
+                        <Rank
+                            username={this.state.user.name}
+                            entries={this.state.user.entries} />
                         <ImageLinkForm
                             inputChange={this.onInputChange}
                             onSubmit={this.onButtonSubmit}

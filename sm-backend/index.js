@@ -10,8 +10,9 @@ const db = knex({
     connection: {
         host: '127.0.0.1',
         user: 'postgres',
-        password: '',
+        password: 'pass2database',
         database: 'smart_brain',
+        port: '5432'
 
     }
 });
@@ -22,7 +23,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get("/", (req, res) => {
-    db.select('*').from('users')
+    db.select('*').from('login')
         .then(users => {
             res.json(users)
         })
@@ -32,6 +33,7 @@ app.post("/signin", (req, res) => {
     db.select('*').from('login')
         .where('email', '=', req.body.email)
         .then(data => {
+            console.log(data)
             const isValid = bcrypt.compareSync(req.body.password, data[0].hash)
             if (isValid) {
                 return db.select('*').from('users')
@@ -72,7 +74,7 @@ app.post('/register', (req, res) => {
             .then(trx.commit)
             .catch(trx.rollback)
     })
-
+        .catch(err => console.log(err))
 
 });
 
