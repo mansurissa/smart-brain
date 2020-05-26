@@ -3,7 +3,11 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
-const pg = require('pg')
+const pg = require('pg');
+const rejester = require('./controllers/rejester');
+const signin = require('./controllers/signin');
+const profile = require('./controllers/profile');
+const image = require('./controllers/image')
 
 const db = knex({
     client: 'pg',
@@ -29,88 +33,10 @@ app.get("/", (req, res) => {
         })
 });
 
-app.post("/signin", (req, res) => {
-    db.select('*').from('login')
-        .where('email', '=', req.body.email)
-        .then(data => {
-            console.log(data)
-            const isValid = bcrypt.compareSync(req.body.password, data[0].hash)
-            if (isValid) {
-                return db.select('*').from('users')
-                    .where('email', '=', req.body.email)
-                    .then(user => {
-                        res.json(user[0])
-                    })
-                    .catch(err => res.json('no such user'))
-
-            } else {
-                res.json('no non')
-            }
-        })
-
-});
-
-app.post('/register', (req, res) => {
-    const { email, name, password } = req.body;
-    const hash = bcrypt.hashSync(password);
-    db.transaction(trx => {
-        trx.insert({
-            hash: hash,
-            email: email
-        })
-            .into('login')
-            .returning('email')
-            .then(loginEmail => {
-                return trx('users')
-                    .returning('*')
-                    .insert({
-                        email: loginEmail[0],
-                        name: name,
-                        joined: new Date()
-                    }).then(user => {
-                        res.json(user[0])
-                    });
-            })
-            .then(trx.commit)
-            .catch(trx.rollback)
-    })
-        .catch(err => console.log(err))
-
-});
-
-app.get('/profile/:id', (req, res) => {
-    const { id } = req.params;
-
-    db.select('*').from('users').where({
-        id: id
-    }).then(user => {
-        if (user.length) {
-            res.json(user)
-        } else {
-            res.status(400).json('not found')
-        }
-    })
-
-});
-
-app.put('/image', (req, res) => {
-    const { id } = req.body;
-    db('users')
-        .where('id', '=', id)
-        .increment('entries')
-        .returning('entries')
-        .then(entries => console.log(entries))
-});
-
-//bcrypt testing
-
-// // Load hash from your password DB.
-// bcrypt.compare("bacon", hash, function(err, res) {
-//     // res == true
-// });
-// bcrypt.compare("veggies", hash, function(err, res) {
-//     // res = false
-// });
+app.post("/signin", (req, res) => { signin.signinHandler(req, res, db, bcrypt) });
+app.post('/register', (req, res) => { rejester.rejesterHandler(req, res, db, bcrypt) });
+app.get('/profile/:id', (req, res) => { profile.profileHandler(req, res, db) });
+app.put('/image', (req, res) => { image.imageHandler(req, res, db) });
 
 app.listen(3005, () => {
     console.log('listening')
