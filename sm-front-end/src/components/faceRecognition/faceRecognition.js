@@ -15,7 +15,7 @@ const FaceRecognition = ({ imageUrl, box }) => {
                 }}>
                 </div>
             </div>
-            {/* {console.log(box.topRow, box.rightCol, box.leftCol, box.bottomRow)} */}
+            {console.log(box.topRow, box.rightCol, box.leftCol, box.bottomRow)}
         </div>
 
     )
