@@ -20,7 +20,7 @@ class siginin extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        fetch('https://powerful-depths-04800.herokuapp.com//signin', {
+        fetch('https://powerful-depths-04800.herokuapp.com/signin', {
             method: 'post',
             headers: { 'content-Type': 'application/json' },
             body: JSON.stringify(

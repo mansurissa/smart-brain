@@ -22,7 +22,7 @@ class rejester extends React.Component {
         this.setState({ name: event.target.value })
     }
     onSubmit = () => {
-        fetch('http://localhost:3005/register', {
+        fetch('https://powerful-depths-04800.herokuapp.com/register', {
             method: 'post',
             headers: { 'content-Type': 'application/json' },
             body: JSON.stringify(
