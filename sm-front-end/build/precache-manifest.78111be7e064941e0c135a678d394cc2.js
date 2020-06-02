@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "51a822f4c8e63968a17cf4d5917b951c",
+    "revision": "6db5372f5d953fb4d269155fe210bd0d",
     "url": "/smart-brain/index.html"
   },
   {
